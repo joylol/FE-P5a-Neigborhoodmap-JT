@@ -1,7 +1,15 @@
 body {
   padding-top: 50px;
 }
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
+}
+
+#map-div {
+  display: block;
+  margin: 0 5%;
+  height: 400px;
+  width: 100%;
 }
