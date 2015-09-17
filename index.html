@@ -37,10 +37,17 @@
 		<div class="container">
 			<div class="starter-template">
 				<h1>My Neigborhood Map</h1>
-				<p class="lead">Discover my favorite places in the Carrollton area!<br>Search for what you are looking for and learn more.</p>
+				<p class="lead">Discover my favorite places in the Carrollton area!<br>Click on markers below to learn about them<br> or search for what you are looking for and learn more.</p>
+				<div id="searchBar">
+			  		<input id="pac-input" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" type="text" class="controls" placeholder="Filter Locations">
+			  		<ul data-bind="foreach: filterPins" class="locationsList">
+			  			<li class="active">
+			  				<a data-bind="text: name"></a>
+			  			</li>
+			  		</ul>
+			  	</div>
 			</div>
-			<div id="map-div">
-			</div>
+			<div id="map"></div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
