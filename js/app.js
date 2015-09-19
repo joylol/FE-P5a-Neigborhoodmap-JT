@@ -31,27 +31,69 @@ var favoritePlaces = [
   }
 ];
 
-var map;
-
-function initMap() {
-  var carrollton = new google.maps.LatLng(33.024819,-96.885055);
-  map = new google.maps.Map(document.getElementById('map'), {
+var mapView = {
+  init: function() {
+    var carrollton = new google.maps.LatLng(33.024819,-96.885055);
+    var map = new google.maps.Map(document.getElementById('map'), {
       center: carrollton,
       zoom: 13
-  });
-
-  setMarkers(map);
-}
-
-function setMarkers(map) {
-  for(var i = 0; i < favoritePlaces.length; i++) {
-    var favoritePlace = favoritePlaces[i];
-    var marker = new google.maps.Marker({
-      position: {lat: favoritePlace.lat, lng: favoritePlace.lng},
-      map: map,
-      title: favoritePlace.name
-    });
+    }); 
+    this.setMarkers(map);
+  },
+  setMarkers: function(map) {
+    for(var i = 0; i < favoritePlaces.length; i++) {
+      var favoritePlace = favoritePlaces[i];
+      var marker = new google.maps.Marker({
+        position: {lat: favoritePlace.lat, lng: favoritePlace.lng},
+        map: map,
+        title: favoritePlace.name
+      });
+    }
   }
+};
+
+
+function Place(name, lat, lng, text) {
+  this.name = ko.observable(name);
+  this.lat = ko.observable(lat);
+  this.lng = ko.observable(lng);
+  this.text = ko.observable(text);
 }
 
-initMap();
+var placesArrayMap = ko.utils.arrayMap(favoritePlaces, function(place) {
+  return new Place(place.name, place.lat, place.lng, place.text);
+});
+
+var viewModel = {
+  locations: ko.observableArray([]),
+  filter: ko.observable('')
+};
+
+ko.utils.stringStartsWith = function (string, startsWith) {         
+      string = string || "";
+      if (startsWith.length > string.length)
+          return false;
+      return string.substring(0, startsWith.length) === startsWith;
+}
+
+viewModel.filteredItems = ko.dependentObservable(function() {
+  var filter = this.filter().toLowerCase();
+  if(!filter) {
+    return this.locations();
+  } else {
+      return ko.utils.arrayFilter(this.locations(), function(location) {
+        return ko.utils.stringStartsWith(location.name().toLowerCase(), filter);
+      });
+  }
+}, viewModel);
+
+viewModel.locations(placesArrayMap);
+
+ko.applyBindings(viewModel);
+
+
+
+mapView.init();
+
+
+
