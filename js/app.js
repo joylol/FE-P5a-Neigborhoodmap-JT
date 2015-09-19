@@ -50,6 +50,18 @@ function Place(name, lat, lng, text) {
     title: name,
     map: map
   });
+
+  this.isVisible = ko.observable(false);
+
+  this.isVisible.subscribe(function(currentState) {
+    if (currentState) {
+      marker.setMap(map);
+    } else {
+      marker.setMap(null);
+    }
+  });
+
+  this.isVisible(true);
 }
 
 var placesArrayMap = ko.utils.arrayMap(favoritePlaces, function(place) {
@@ -74,7 +86,9 @@ viewModel.filteredItems = ko.dependentObservable(function() {
     return this.locations();
   } else {
       return ko.utils.arrayFilter(this.locations(), function(location) {
-        return ko.utils.stringStartsWith(location.name().toLowerCase(), filter);
+        var doesMatch = location.name().toLowerCase().indexOf(filter) >= 0;
+        location.isVisible(doesMatch);
+        return doesMatch;
       });
   }
 }, viewModel);
