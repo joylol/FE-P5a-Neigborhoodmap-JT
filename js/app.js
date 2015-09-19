@@ -31,15 +31,15 @@ var favoritePlaces = [
   }
 ];
 
-var mapView = {
-  init: function() {
-    var carrollton = new google.maps.LatLng(33.024819,-96.885055);
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: carrollton,
-      zoom: 13
-    }); 
-    this.setMarkers(map);
-  },
+
+
+var carrollton = new google.maps.LatLng(33.024819,-96.885055);
+var map = new google.maps.Map(document.getElementById('map'), {
+  center: carrollton,
+  zoom: 13
+}); 
+    //this.setMarkers(map);
+  /*
   setMarkers: function(map) {
     for(var i = 0; i < favoritePlaces.length; i++) {
       var favoritePlace = favoritePlaces[i];
@@ -49,8 +49,8 @@ var mapView = {
         title: favoritePlace.name
       });
     }
-  }
-};
+  }*/
+
 
 
 function Place(name, lat, lng, text) {
@@ -58,6 +58,11 @@ function Place(name, lat, lng, text) {
   this.lat = ko.observable(lat);
   this.lng = ko.observable(lng);
   this.text = ko.observable(text);
+  var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(lat, lng),
+    title: name,
+    map: map
+  });
 }
 
 var placesArrayMap = ko.utils.arrayMap(favoritePlaces, function(place) {
@@ -93,7 +98,7 @@ ko.applyBindings(viewModel);
 
 
 
-mapView.init();
+
 
 
 
