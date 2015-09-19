@@ -38,19 +38,6 @@ var map = new google.maps.Map(document.getElementById('map'), {
   center: carrollton,
   zoom: 13
 }); 
-    //this.setMarkers(map);
-  /*
-  setMarkers: function(map) {
-    for(var i = 0; i < favoritePlaces.length; i++) {
-      var favoritePlace = favoritePlaces[i];
-      var marker = new google.maps.Marker({
-        position: {lat: favoritePlace.lat, lng: favoritePlace.lng},
-        map: map,
-        title: favoritePlace.name
-      });
-    }
-  }*/
-
 
 
 function Place(name, lat, lng, text) {
