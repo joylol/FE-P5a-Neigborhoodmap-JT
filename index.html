@@ -39,9 +39,9 @@
 				<h1>My Neigborhood Map</h1>
 				<p class="lead">Discover my favorite places in the Carrollton area!<br>Click on markers below to learn about them<br> or search for what you are looking for and learn more.</p>
 				<div id="searchArea">
-					<p>Search: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
+					<p>Search: <input data-bind="textInput: filter" /></p>
 					<ul data-bind="foreach: filteredItems">
-						<li data-bind="text: name"></li>
+						<li data-bind="text: name, click: $parent.openLocationWindow"></li>
 					</ul>	
 			  	</div>
 			</div>

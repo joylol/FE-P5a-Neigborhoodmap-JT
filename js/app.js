@@ -31,71 +31,79 @@ var favoritePlaces = [
   }
 ];
 
-
-
 var carrollton = new google.maps.LatLng(33.024819,-96.885055);
 var map = new google.maps.Map(document.getElementById('map'), {
   center: carrollton,
-  zoom: 13
+  zoom: 12
 }); 
 
 
-function Place(name, lat, lng, text) {
+var Place = function(name, lat, lng, text) {
   this.name = ko.observable(name);
   this.lat = ko.observable(lat);
   this.lng = ko.observable(lng);
   this.text = ko.observable(text);
-  var marker = new google.maps.Marker({
+
+  this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(lat, lng),
     title: name,
     map: map
   });
 
-  this.isVisible = ko.observable(false);
+  this.infowindow = new google.maps.InfoWindow({
+    content: name
+  });
+
+  this.openInfoWindow = function() {
+    this.infowindow.open(map, this.marker);
+  }.bind(this);
+
+  this.marker.addListener('click', this.openInfoWindow.bind(this));
+
+  this.isVisible = ko.observable(true);
 
   this.isVisible.subscribe(function(currentState) {
     if (currentState) {
-      marker.setMap(map);
+      this.marker.setMap(map);
     } else {
-      marker.setMap(null);
+      this.marker.setMap(null);
     }
-  });
-
-  this.isVisible(true);
-}
-
-var placesArrayMap = ko.utils.arrayMap(favoritePlaces, function(place) {
-  return new Place(place.name, place.lat, place.lng, place.text);
-});
-
-var viewModel = {
-  locations: ko.observableArray([]),
-  filter: ko.observable('')
+  }.bind(this)); 
 };
 
-ko.utils.stringStartsWith = function (string, startsWith) {         
-      string = string || "";
-      if (startsWith.length > string.length)
-          return false;
-      return string.substring(0, startsWith.length) === startsWith;
-}
+var viewModel = function() {
 
-viewModel.filteredItems = ko.dependentObservable(function() {
-  var filter = this.filter().toLowerCase();
-  if(!filter) {
-    return this.locations();
-  } else {
-      return ko.utils.arrayFilter(this.locations(), function(location) {
-        var doesMatch = location.name().toLowerCase().indexOf(filter) >= 0;
-        location.isVisible(doesMatch);
-        return doesMatch;
+  this.locations = ko.observableArray([]);
+
+  favoritePlaces.forEach(function(place){
+    this.locations.push(new Place(place.name, place.lat, place.lng, place.text));
+  }, this); 
+ 
+  this.filter = ko.observable('');
+
+  this.filteredItems = ko.dependentObservable(function() {
+    var filter = this.filter().toLowerCase();
+    if(!filter) {
+      ko.utils.arrayFilter(this.locations(), function(location) {
+        location.isVisible(true);
       });
-  }
-}, viewModel);
+      return this.locations();
+    } else {
+        return ko.utils.arrayFilter(this.locations(), function(location) {
+          var doesMatch = location.name().toLowerCase().indexOf(filter) >= 0;
+          location.isVisible(doesMatch);
+          return doesMatch;
+        });
+    }
+  }, this);
+  
+  this.openLocationWindow = function(clickedLocation) {
+    clickedLocation.openInfoWindow();
+  };
+};
 
-viewModel.locations(placesArrayMap);
 
-ko.applyBindings(viewModel);
+ko.applyBindings(new viewModel());
 
 
 
