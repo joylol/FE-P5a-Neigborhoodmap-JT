@@ -7,7 +7,7 @@
 		<meta name="description" content="Neighborhood map of North Carrollton. Created for Udacity's Front End Nanodegree">
     	<meta name="author" content="Joy Thomas">
     	<link rel="icon" href="images/favicon.ico">
-		<title>Neighborhood Map</title>
+		<title>Top Ten Places to Visit in Dallas</title>
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
 		<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
@@ -25,7 +25,7 @@
 			           			<span class="icon-bar"></span>
 			            		<span class="icon-bar"></span>
 			            	</button>
-		            		<a class="navbar-brand" href="#">Neighborhood Map</a>
+		            		<a class="navbar-brand" href="#">Top10 Dallas</a>
 		           		</div>
 		            	<div id="navbar" class="collapse navbar-collapse">
 		            		<ul class="nav navbar-nav">
@@ -38,11 +38,10 @@
 				</nav>
 				<header>
 					<div class="introduction">
-						<h1>My Neigborhood Map</h1>
-						<p class="lead">Discover my favorite places in the North Carrollton area!<br></p>
+						<h3 class="lead">Discover my favorite places in Dallas!</h3>
 					</div>
 					<div id="searchArea">
-						<p>Search: <input data-bind="textInput: filter" /></p>
+						<input data-bind="textInput: filter" placeholder="Search"/>
 				  	</div>
 				</header>
 				<aside>
@@ -55,7 +54,7 @@
 			<div id="map"></div>
 		</div>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/ie10-viewport-bug-workaround.js"></script>
 		<script src="js/knockout-3.3.0.js"></script>
