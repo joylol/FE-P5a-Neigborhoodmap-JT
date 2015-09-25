@@ -7,7 +7,7 @@ html {
 }
 
 /* common elements */
-html, body, .container {
+html, body, section, .container {
   height: 100vh;
   margin: 0;
   width: 100%;
@@ -17,9 +17,13 @@ body {
   padding-top: 50px;
 }
 
-header, aside {
+header, aside, section {
   margin: 0;
   text-align: center;
+}
+
+p {
+  font-size: 1.2em;
 }
 
 #searchArea {
@@ -33,7 +37,7 @@ header, aside {
 #places-list li {
   display: inline-block;
   list-style-type: none;
-  font-size: 14px;
+  font-size: 18px;
   padding: 8px;
   background: #222222;
   color: #9d9d9d;
@@ -48,7 +52,21 @@ header, aside {
 
 #map {
   height: 100%;
-  max-width: 100%;
+  width: 100%;
+}
+
+figure {
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+figure img {
+  width: 75%;
+  height: auto;
+}
+
+figcaption {
+  font-size: 1.2em;
 }
 
 @media only screen and (max-width: 600px) {
@@ -74,5 +92,10 @@ header, aside {
   #map {
     height: 60vh;
     margin-top: 0.5em;
+  }
+  
+  figure img {
+    width: 100%;
+    height: auto;
   }
 }
